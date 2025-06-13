@@ -1,0 +1,29 @@
+<!-- views/fruits/show.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= car.name %></title> <!-- Dynamic title based on fruit name -->
+  </head>
+  <body>
+    <h1>Name:<%= car.name %></h1> <!-- Display car name -->
+  
+ <h3>Color:           <%= car.color %></h3>
+ <h3>Model:           <%= car.model %></h3>
+ <h3>Description:     <%= car.description %></h3>
+    <form action="/cars/<%=car._id%>?_method=DELETE" method="POST">
+  <button type="submit">Delete <%= car.name %></button>
+</form>
+
+<!-- add edit page link here -->
+ <br>
+<a href="/cars/<%= car._id %>/edit">Edit <%= car.name %></a>
+
+<br>
+<br> 
+<a href="/cars">Back to cars</a>
+
+  </body>
+</html>

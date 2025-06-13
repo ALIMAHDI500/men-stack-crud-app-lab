@@ -1,42 +1,73 @@
-const { render } = require('ejs');
+
 const express = require('express');
+const dotenv=require("dotenv")
+ const morgan = require("morgan");
+ const path = require("path");
+const methodOverrride=require("method-override")
+dotenv.config();
+
+
+const mongoose=require("mongoose")
+
 const app = express();
+PORT=3000
 
-PORT=3005
+ app.use(morgan('dev'));
+app.use(express.urlencoded({extended:false}))
+app.use(methodOverrride("_method"))
+ app.use(express.static(path.join(__dirname, "public")));
+app.set('view engine', 'ejs')
+ // new code below this line
 
-// app.set('view engine', 'ejs');
+ 
 
 
-app.get('/', (req, res) => {
-   
 
-  res.send('Hello There!');
+//Database Connction
+
+mongoose.connect(process.env.MONGODB_URI)
+mongoose.connection.on("connected", ()=>{
+
+
+    console.log(`Connected to the Database: ${mongoose.connection.name}`);
+    
+})
+
+
+
+//  //new page
+// app.get("/cars/new",async (req, res) => {
+//   res.render("cars/new");
+// });
+
+
+
+app.post("/cars", async (req, res) => {
+
+  await Car.create(req.body);
+  res.redirect("/cars/new");
 });
 
 
-app.get('/home', (req, res) => {
-
-    res.render('home',{RESTAURANT})
-  
-});
 
 
+//  new code above this line
+ 
 
-app.get('/', (req, res) => {
-   
- res.render()
-
-});
+ app.get("/", async (req, res) => {
+   res.render("index");
+ })
 
 
 
-app.get('/menu/:category', (req, res) => {
-   
+//Require Controller
+ const carCtrl=require('./controllers/cars');
+ const Car = require('./modles/car.js');
+app.use("/",carCtrl)
 
 
 
-});
-
+//first page
 
 
 
